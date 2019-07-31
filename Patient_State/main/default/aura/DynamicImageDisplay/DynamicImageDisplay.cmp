@@ -1,0 +1,56 @@
+<aura:component implements="flexipage:availableForRecordHome,flexipage:availableForAllPageTypes,force:hasRecordId" controller="DynamicImageDisplayController" access="global" >
+    <!-- public -->
+    <aura:attribute name="title" type="String" required="false" access="public" />
+    <aura:attribute name="fieldName" type="String" default="ImageUrl__c" required="true" access="public" />
+    <aura:attribute name="configName" type="String" default="My_Config_Name" required="true" access="public" />
+    <aura:attribute name="channel" type="String" default="/event/MyEvent__e" required="true" access="public" />
+    <aura:attribute name="payloadFieldName" type="String" default="Message__c" required="true" access="public" />
+    <aura:attribute name="filterIdFieldName" type="String" default="AssetId__c" required="false" access="public" />
+    <aura:attribute name="filterPayloadFieldName" type="String" default="AssetId__c" required="false" access="public" />
+
+    <!-- private -->
+    <aura:attribute name="fieldNames" type="String[]" required="false" access="private" />
+    <aura:attribute name="currentStatus" type="String" required="false" access="private" />
+    <aura:attribute name="config" type="String" required="false" access="private" />
+    <aura:attribute name="record" type="Object" description="The record object to be displayed" access="private"/>
+    <aura:attribute name="simpleRecord" type="Object" description="A simplified view record object to be displayed" access="private" />
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData" access="private" />
+    <aura:attribute name="dynamicComponentsByAuraId" type="Object" access="private" />
+
+    <!-- events -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.changeRecord}"/>
+    <aura:handler event="ltng:selectSObject" action="{!c.handleRecordChange}" />
+
+    <c:streaming channel="{!v.channel}" onStart="{!c.handleStart}" onMessage="{!c.handleMessage}"/>
+
+    <force:recordData aura:id="record"
+                      fields="{!v.fieldNames}"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      recordUpdated="{!c.recordUpdated}"
+                      mode="VIEW"/>
+
+    <lightning:card >
+        <aura:set attribute="title">
+            {!v.title}
+            <lightning:badge aura:id="live" label="Offline" class="slds-float_right slds-theme_offline" />
+        </aura:set>
+        <div class="slds-card__body--inner">
+            <lightning:tile >
+                <aura:if isTrue="{!not(empty(v.recordError))}">
+                    <div class="recordError">
+                        <ui:message title="Error" severity="error" closable="true">
+                            {!v.recordError}
+                        </ui:message>
+                    </div>
+                </aura:if>
+                <div class="slds-clearfix" aura:id="images">
+                </div>
+            </lightning:tile>
+        </div>
+    </lightning:card>
+</aura:component>

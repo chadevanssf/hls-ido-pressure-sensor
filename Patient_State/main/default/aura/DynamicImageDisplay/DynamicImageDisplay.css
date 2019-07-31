@@ -1,0 +1,17 @@
+.THIS {
+}
+
+.THIS .layer.layer_base {
+    position: relative;
+}
+.THIS .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.THIS .layer.hide {
+    visibility: hidden;
+}
+.THIS .layer.show {
+    visibility: visible;
+}

@@ -1,0 +1,67 @@
+<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable"
+                access="global"
+                controller="PressureSensorController">
+    <!-- Public -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="title" type="String" />
+    <!-- Private -->
+    <aura:attribute name="patientState" type="Object" access="private" />
+    <aura:attribute name="patientStateId" type="String" access="private" />
+    <aura:attribute name="ready" type="Boolean" default="false" access="private" />
+    <!-- Handlers -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!-- Data -->
+    <aura:attribute name="fieldNames" type="String[]" default="Id,Name" access="private" />
+    <aura:attribute name="record" type="Object" description="The record object to be displayed" access="private"/>
+    <aura:attribute name="simpleRecord" type="Object" description="A simplified view record object to be displayed" access="private" />
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData" access="private" />
+    <force:recordData aura:id="record"
+                      fields="{!v.fieldNames}"
+                      layoutType="FULL"
+                      recordId="{!v.patientStateId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      recordUpdated="{!c.recordUpdated}"
+                      mode="VIEW"/>
+    
+    <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box">
+            <lightning:card title="{!v.title}" iconName="standard:person_account">
+                <aura:set attribute="actions">
+                    <lightning:button iconName="utility:refresh" label="Refresh" onclick="{!c.handleRefresh}"/>
+                </aura:set>
+                <p class="slds-p-horizontal_small">
+                    <aura:if isTrue="{!not(v.ready)}">
+                        <lightning:spinner alternativeText="Loading" size="large" />
+                        <aura:set attribute="else">
+                            <lightning:recordViewForm recordId="{!v.patientStateId}" objectApiName="Patient_State__c">
+                                <div class="slds-box">
+                                    <lightning:outputField fieldName="PatientId__c" />
+                                    <lightning:outputField fieldName="Current_State__c" />
+                                    <lightning:outputField fieldName="Orientation__c" />
+                                    <lightning:outputField fieldName="Time_in_Position__c" />
+                                </div>
+                            </lightning:recordViewForm>
+                        </aura:set>
+                    </aura:if>
+                    <c:GenerateEvent_ButtonList title="Simulate Device Data"
+                                                eventName="Patient_Motion__e"
+                                                mdtGroupName="Patient" />
+                </p>
+            </lightning:card>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box">
+            <c:DynamicImageDisplay title="{!v.title + ' Display'}"
+                                   recordId="{!v.patientStateId}"
+                                   fieldName="Display_Status__c"
+                                   configName="Patient_States"
+                                   channel="/event/Patient_Pressure__e"
+                                   payloadFieldName="Message__c"
+                                   filterIdFieldName="PatientId__c"
+                                   filterPayloadFieldName="PatientId__c" />
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

@@ -1,0 +1,14 @@
+<aura:component access="global" controller="SessionController">
+    <aura:attribute name="channel" type="String" required="true"/>
+    <aura:registerEvent name="onStart" type="c:streamingStart"/>
+    <aura:registerEvent name="onMessage" type="c:streamingEvent"/>
+    <ltng:require scripts="{!$Resource.cometd + '/cometd.js'}" afterScriptsLoaded="{!c.doInit}" />
+
+    <aura:attribute name="showOutput" type="boolean" default="false" />
+    <aura:attribute name="consoleStuff" type="string" />
+
+    <aura:if isTrue="{!v.showOutput}">
+        <ui:outputTextArea value="{!v.consoleStuff}" />
+    </aura:if>
+
+</aura:component>

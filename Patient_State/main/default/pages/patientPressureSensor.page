@@ -1,0 +1,27 @@
+<apex:page >
+    <apex:includeScript value="/lightning/lightning.out.js" />
+    <apex:includeScript value="/support/console/45.0/integration.js"/>
+    
+    
+    <div id="lightning" />
+    
+    <script type="text/javascript">
+    var recordId = '';
+    var showObjectId = function showObjectId(result) {
+        // Display the object ID
+        console.log('PressureSensor:objid Object ID: ' + result.id);
+        recordId = result.id;
+        $Lightning.use("c:patientPressureSensorApp", function() {
+            console.log('PressureSensor:precreate Object ID: ' + recordId);
+            $Lightning.createComponent("c:patientPressureSensor",
+                                       { recordId: recordId },
+                                       "lightning",
+                                       function(cmp) {
+                                           console.log('PressureSensor:postcreate Object ID: ' + recordId);
+                                       });
+        });
+    };
+    sforce.console.getEnclosingPrimaryTabObjectId(showObjectId);
+    
+    </script>
+</apex:page>

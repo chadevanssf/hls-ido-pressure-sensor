@@ -1,0 +1,9 @@
+<design:component >
+    <design:attribute name="title" label="Title" description="Title of the Component" />
+    <design:attribute name="configName" label="Metadata Type Entry" datasource="apex://AvailableMDT" description="Custom Metadata Type entry for the configuration of the images, under 'Image List' > 'Image List Name'" />
+    <design:attribute name="fieldName" label="Source Field Name" description="Used to initialize the image, data is of the form '{&quot;left&quot;:&quot;show&quot;,&quot;right&quot;:&quot;hide&quot;}'" />
+    <design:attribute name="channel" label="Event Channel" description="Indicates the channel to listen to, somethign like '/event/MyEvent__e'" />
+    <design:attribute name="payloadFieldName" label="Event Payload Field" description="Indicates the payload field for the Event, like 'Message__c'" />
+    <design:attribute name="filterIdFieldName" label="Source Filter Id Field" description="Indicates the Source's Id to use to filter the events, like 'AssetId__c'" />
+    <design:attribute name="filterPayloadFieldName" label="Event Filter Id Field" description="Indicates the Event's field to match for filtering of events, like 'AssetId__c'" />
+</design:component>

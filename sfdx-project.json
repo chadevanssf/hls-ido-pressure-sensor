@@ -1,0 +1,11 @@
+{
+  "packageDirectories": [
+    {
+      "path": "Patient_State",
+      "default": true
+    }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "46.0"
+}

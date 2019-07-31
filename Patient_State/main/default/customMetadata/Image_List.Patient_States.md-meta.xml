@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Patient States</label>
+    <protected>false</protected>
+    <values>
+        <field>Image_Config__c</field>
+        <value xsi:type="xsd:string">[ 
+{ &quot;layername&quot;:&quot;base&quot;, &quot;image&quot;:&quot;/patient_standing.png&quot;, &quot;archive&quot;: &quot;patientstates&quot; }, 
+{ &quot;layername&quot;:&quot;laying&quot;, &quot;image&quot;:&quot;/patient_laying.png&quot;, &quot;archive&quot;: &quot;patientstates&quot; }, 
+{ &quot;layername&quot;:&quot;escalate&quot;, &quot;image&quot;:&quot;/patient_escalate.png&quot;, &quot;archive&quot;: &quot;patientstates&quot; }, 
+{ &quot;layername&quot;:&quot;adjusted&quot;, &quot;image&quot;:&quot;/patient_adjusted.png&quot;, &quot;archive&quot;: &quot;patientstates&quot; } 
+]</value>
+    </values>
+</CustomMetadata>
